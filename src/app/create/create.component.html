@@ -37,17 +37,22 @@
 
     <div formArrayName="questions">
       <h3>Questions</h3>
+      <p>You can drag the question cards to reorder them!</p>
 
       <ul
         *ngIf="quizQuestions.length > 0; else questionsEmptyState"
         class="list-group list-group-flush"
+        cdkDropList
+        (cdkDropListDropped)="moveQuestion($event)"
       >
         <div
           *ngFor="let questionFormGroup of quizQuestions.controls; index as i"
-          class="card my-2"
+          class="card my-3"
           [formGroupName]="i"
+          cdkDrag
         >
           <div class="card-body">
+            <div class="question-number">{{ i + 1 }}</div>
             <div class="form-group">
               <input
                 type="text"

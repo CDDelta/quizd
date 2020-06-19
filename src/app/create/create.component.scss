@@ -1,3 +1,22 @@
 .container {
   max-width: 750px;
 }
+
+.question-number {
+  width: 36px;
+  height: 36px;
+  top: -18px;
+  left: -10px;
+  position: absolute;
+  border-radius: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: grey;
+}
+
+.card.cdk-drag-placeholder {
+  opacity: 0;
+}

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { FormBuilder, Validators, FormArray } from '@angular/forms';
+import { FormBuilder, Validators, FormArray, FormGroup } from '@angular/forms';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-create',
@@ -26,6 +27,14 @@ export class CreateComponent {
         type: ['', Validators.required],
         prompt: ['', Validators.required],
       }),
+    );
+  }
+
+  moveQuestion(event: CdkDragDrop<FormGroup>) {
+    moveItemInArray(
+      this.quizQuestions.controls,
+      event.previousIndex,
+      event.currentIndex,
     );
   }
 }
