@@ -1,1 +1,112 @@
-<p>create works!</p>
+<div class="container">
+  <h2 class="mb-4">Create a Quiz!</h2>
+
+  <form *ngIf="true; else keystorePrompt" [formGroup]="quizForm">
+    <div class="form-group">
+      <input
+        type="text"
+        formControlName="title"
+        class="form-control form-control-lg"
+        placeholder="Title"
+      />
+    </div>
+    <div class="form-group">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Tags"
+        aria-describedby="tagsHelp"
+      />
+      <small id="tagsHelp" class="form-text text-muted"
+        >Adding tags makes it easier for others to find your quiz!</small
+      >
+    </div>
+
+    <hr />
+
+    <div formArrayName="questions">
+      <h3>Questions</h3>
+
+      <ul
+        *ngIf="quizQuestions.length > 0; else questionsEmptyState"
+        class="list-group list-group-flush"
+      >
+        <div
+          *ngFor="let questionFormGroup of quizQuestions.controls; index as i"
+          class="card my-2"
+          [formGroupName]="i"
+        >
+          <div class="card-body">
+            <select class="custom-select" formControlName="type">
+              <option>Multiple Choice</option>
+              <option>Number</option>
+              <option>Text</option>
+              <option>Date</option>
+            </select>
+          </div>
+        </div>
+      </ul>
+
+      <ng-template #questionsEmptyState>
+        <div class="text-center">
+          <p>There's nothing here yet...</p>
+        </div>
+      </ng-template>
+
+      <div class="text-right mt-2">
+        <button
+          type="button"
+          class="btn btn-outline-secondary"
+          (click)="addQuestion()"
+        >
+          Add Question
+        </button>
+      </div>
+    </div>
+
+    <hr />
+
+    <h3>Final Pieces</h3>
+    <div class="form-group">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Payment Pointer"
+        aria-describedby="paymentHelp"
+      />
+      <small id="paymentHelp" class="form-text text-muted"
+        >Add a payment pointer to get paid by users using web monetization,
+        learn more
+        <a href="https://webmonetization.org/" rel="noopener" target="_blank"
+          >here</a
+        >.</small
+      >
+    </div>
+
+    <p>
+      Due to the nature of Quizd your created quizzes cannot be modified or
+      deleted after publishing. Be sure to check your work properly!
+    </p>
+    <div class="text-right">
+      <button class="btn btn-secondary">Publish Quiz!</button>
+    </div>
+  </form>
+</div>
+
+<ng-template #keystorePrompt>
+  <div class="mt-5 text-center">
+    <p>To create a quiz, please load a valid Arweave Keystore.</p>
+    <div class="custom-file mb-4">
+      <input type="file" class="custom-file-input" id="keystorePicker" />
+      <label class="custom-file-label" for="keystorePicker"
+        >Load Keystore</label
+      >
+    </div>
+    <p>
+      Need tokens or a wallet? Get some
+      <a href="https://www.arweave.org/wallet" target="_blank" rel="noopener"
+        >here</a
+      >.
+    </p>
+  </div>
+</ng-template>
