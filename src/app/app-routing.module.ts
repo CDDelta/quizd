@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { QuizzesLandingComponent } from './quiz/quizzes-landing/quizzes-landing.component';
 import { QuizDetailComponent } from './quiz/quiz-detail/quiz-detail.component';
+import { QuizStatusComponent } from './quiz/quiz-status/quiz-status.component';
+import { QuizDetailResolverService } from './quiz/quiz-detail/quiz-detail-resolver.service';
 
 const routes: Routes = [
   {
@@ -10,8 +12,15 @@ const routes: Routes = [
     component: QuizzesLandingComponent,
   },
   {
-    path: 'quizzes/:id',
+    path: 'quizzes/:quizId',
     component: QuizDetailComponent,
+    resolve: {
+      quiz: QuizDetailResolverService,
+    },
+  },
+  {
+    path: 'quizzes/:quizId/status',
+    component: QuizStatusComponent,
   },
   {
     path: 'create',

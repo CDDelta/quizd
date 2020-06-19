@@ -11,6 +11,7 @@ import {
   MultipleChoiceQuestion,
 } from '../models/question';
 import { JWKInterface } from 'arweave/web/lib/wallet';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create',
@@ -32,7 +33,11 @@ export class CreateComponent {
     return this.quizForm.get('questions') as FormArray;
   }
 
-  constructor(private quizService: QuizService, private fb: FormBuilder) {}
+  constructor(
+    private quizService: QuizService,
+    private fb: FormBuilder,
+    private router: Router,
+  ) {}
 
   addQuestion(): void {
     const questions = this.quizForm.get('questions') as FormArray;
@@ -112,7 +117,8 @@ export class CreateComponent {
       }),
     };
 
-    await this.quizService.publishQuiz(quiz, this.key);
+    const quizId = await this.quizService.publishQuiz(quiz, this.key);
+    this.router.navigateByUrl(`/quizzes/${quizId}/status`);
   }
 
   async handleKeyFile(files: FileList): Promise<void> {

@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="card text-center">
+    <div class="card-body">
+      <div *ngIf="quizPublished$ | async; else quizPublishing">
+        <h2>This quiz is published!</h2>
+        <a class="btn btn-primary" routerLink="/quizzes/{{ quizId }}"
+          >Play Now</a
+        >
+      </div>
+      <ng-template #quizPublishing>
+        <h2>This quiz is being published...</h2>
+        <p>
+          You can safely close this window and check back later. <br />
+          This page will automatically update once the quiz is published.
+        </p>
+        <div class="spinner-border" role="status">
+          <span class="sr-only">Publishing...</span>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>
