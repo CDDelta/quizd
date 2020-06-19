@@ -31,6 +31,7 @@ export class QuizService {
     );
 
     transaction.addTag('Content-Type', 'application/json');
+    transaction.addTag('App-Name', 'quizd');
 
     await this.arweaveClient.transactions.sign(transaction, key);
 
