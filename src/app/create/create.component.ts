@@ -9,6 +9,7 @@ import { FormBuilder, Validators, FormArray } from '@angular/forms';
 export class CreateComponent {
   public quizForm = this.fb.group({
     title: ['', Validators.required],
+    description: ['', Validators.required],
     questions: this.fb.array([]),
   });
 
@@ -22,7 +23,8 @@ export class CreateComponent {
     const questions = this.quizForm.get('questions') as FormArray;
     questions.push(
       this.fb.group({
-        type: [''],
+        type: ['', Validators.required],
+        prompt: ['', Validators.required],
       }),
     );
   }

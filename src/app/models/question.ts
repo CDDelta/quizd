@@ -1,8 +1,8 @@
 export enum QuestionType {
-  MultipleChoice,
-  Text,
-  Number,
-  Date,
+  MultipleChoice = 'mc',
+  Text = 'txt',
+  Number = 'num',
+  Date = 'date',
 }
 
 export interface Question {
