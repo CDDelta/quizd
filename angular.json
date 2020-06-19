@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "quizd"
+    }
+  },
+  "defaultProject": "quizd",
+  "cli": {
+    "analytics": "72e95e0d-0e90-444b-8719-6b0c58c4e4c5"
+  }
 }
