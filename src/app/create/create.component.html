@@ -5,7 +5,12 @@
     <div class="mt-5 text-center">
       <p>To create a quiz, please load a valid Arweave Keystore.</p>
       <div class="custom-file mb-4">
-        <input type="file" class="custom-file-input" id="keystorePicker" />
+        <input
+          type="file"
+          class="custom-file-input"
+          id="keystorePicker"
+          (change)="handleKeyFile($event.target.files)"
+        />
         <label class="custom-file-label" for="keystorePicker"
           >Load Keystore</label
         >
@@ -19,7 +24,7 @@
     </div>
   </ng-template>
 
-  <form *ngIf="true; else keystorePrompt" [formGroup]="quizForm">
+  <form *ngIf="key; else keystorePrompt" [formGroup]="quizForm">
     <div class="form-group">
       <input
         type="text"

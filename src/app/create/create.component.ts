@@ -10,6 +10,7 @@ import {
   DateQuestion,
   MultipleChoiceQuestion,
 } from '../models/question';
+import { JWKInterface } from 'arweave/web/lib/wallet';
 
 @Component({
   selector: 'app-create',
@@ -17,6 +18,8 @@ import {
   styleUrls: ['./create.component.scss'],
 })
 export class CreateComponent {
+  public key: JWKInterface;
+
   public quizForm = this.fb.group({
     title: ['', Validators.required],
     tags: [''],
@@ -65,7 +68,7 @@ export class CreateComponent {
     this.quizQuestions.controls.splice(i, 1);
   }
 
-  publishQuiz(): void {
+  async publishQuiz(): Promise<void> {
     if (this.quizForm.invalid) return;
 
     const formValue = this.quizForm.value;
@@ -101,6 +104,7 @@ export class CreateComponent {
             break;
           case 'date':
             const dq = q as DateQuestion;
+            dq.correctAnswer = new Date(rq.correctAnswer);
             break;
         }
 
@@ -108,6 +112,10 @@ export class CreateComponent {
       }),
     };
 
-    console.log(quiz);
+    await this.quizService.publishQuiz(quiz, this.key);
+  }
+
+  async handleKeyFile(files: FileList): Promise<void> {
+    this.key = JSON.parse(await files.item(0).text());
   }
 }

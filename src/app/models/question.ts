@@ -25,5 +25,5 @@ export interface NumberQuestion extends Question {
 }
 
 export interface DateQuestion extends Question {
-  correctAnswer: string;
+  correctAnswer: Date;
 }

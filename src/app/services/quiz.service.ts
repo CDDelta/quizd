@@ -13,7 +13,7 @@ export class QuizService {
     this.arweaveClient = Arweave.init(undefined);
   }
 
-  async publishQuiz(quiz: Quiz, key: JWKInterface): Promise<void> {
+  async publishQuiz(quiz: Quiz, key: JWKInterface): Promise<string> {
     let transaction = await this.arweaveClient.createTransaction(
       {
         data: JSON.stringify(quiz),
@@ -26,5 +26,7 @@ export class QuizService {
     await this.arweaveClient.transactions.sign(transaction, key);
 
     await this.arweaveClient.transactions.post(transaction);
+
+    return transaction.id;
   }
 }
