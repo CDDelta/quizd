@@ -1,4 +1,9 @@
-import { Question } from './question';
+import {
+  MultipleChoiceQuestion,
+  TextQuestion,
+  NumberQuestion,
+  DateQuestion,
+} from './question';
 
 export interface Quiz {
   title: string;
@@ -7,5 +12,9 @@ export interface Quiz {
 
   paymentPointer?: string;
 
-  questions: Question[];
+  questions:
+    | MultipleChoiceQuestion[]
+    | TextQuestion[]
+    | NumberQuestion[]
+    | DateQuestion[];
 }
