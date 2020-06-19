@@ -1,6 +1,24 @@
 <div class="container">
   <h2 class="mb-4">Create a Quiz!</h2>
 
+  <ng-template #keystorePrompt>
+    <div class="mt-5 text-center">
+      <p>To create a quiz, please load a valid Arweave Keystore.</p>
+      <div class="custom-file mb-4">
+        <input type="file" class="custom-file-input" id="keystorePicker" />
+        <label class="custom-file-label" for="keystorePicker"
+          >Load Keystore</label
+        >
+      </div>
+      <p>
+        Need tokens or a wallet? Get some
+        <a href="https://www.arweave.org/wallet" target="_blank" rel="noopener"
+          >here</a
+        >.
+      </p>
+    </div>
+  </ng-template>
+
   <form *ngIf="true; else keystorePrompt" [formGroup]="quizForm">
     <div class="form-group">
       <input
@@ -150,26 +168,8 @@
       Due to the nature of Quizd your created quizzes cannot be modified or
       deleted after publishing. Be sure to check your work properly!
     </p>
-    <div class="text-right">
+    <div class="text-right mb-5">
       <button class="btn btn-secondary">Publish Quiz!</button>
     </div>
   </form>
 </div>
-
-<ng-template #keystorePrompt>
-  <div class="mt-5 text-center">
-    <p>To create a quiz, please load a valid Arweave Keystore.</p>
-    <div class="custom-file mb-4">
-      <input type="file" class="custom-file-input" id="keystorePicker" />
-      <label class="custom-file-label" for="keystorePicker"
-        >Load Keystore</label
-      >
-    </div>
-    <p>
-      Need tokens or a wallet? Get some
-      <a href="https://www.arweave.org/wallet" target="_blank" rel="noopener"
-        >here</a
-      >.
-    </p>
-  </div>
-</ng-template>
