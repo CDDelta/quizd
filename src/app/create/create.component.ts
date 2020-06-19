@@ -19,6 +19,7 @@ import {
 export class CreateComponent {
   public quizForm = this.fb.group({
     title: ['', Validators.required],
+    tags: [''],
     description: ['', Validators.required],
     paymentPointer: [''],
     questions: this.fb.array([], Validators.required),
@@ -65,11 +66,13 @@ export class CreateComponent {
   }
 
   publishQuiz(): void {
+    if (this.quizForm.invalid) return;
+
     const formValue = this.quizForm.value;
 
     const quiz: Quiz = {
       title: formValue.title,
-      tags: [],
+      tags: (formValue.tags as string).split(',').map((t) => t.trim()),
       description: formValue.description,
       paymentPointer: formValue.paymentPointer,
 
