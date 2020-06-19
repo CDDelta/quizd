@@ -1,6 +1,15 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators, FormArray, FormGroup } from '@angular/forms';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { QuizService } from '../services/quiz.service';
+import { Quiz } from '../models/quiz';
+import {
+  Question,
+  TextQuestion,
+  NumberQuestion,
+  DateQuestion,
+  MultipleChoiceQuestion,
+} from '../models/question';
 
 @Component({
   selector: 'app-create',
@@ -11,30 +20,91 @@ export class CreateComponent {
   public quizForm = this.fb.group({
     title: ['', Validators.required],
     description: ['', Validators.required],
-    questions: this.fb.array([]),
+    paymentPointer: [''],
+    questions: this.fb.array([], Validators.required),
   });
 
   get quizQuestions(): FormArray {
     return this.quizForm.get('questions') as FormArray;
   }
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private quizService: QuizService, private fb: FormBuilder) {}
 
   addQuestion(): void {
     const questions = this.quizForm.get('questions') as FormArray;
     questions.push(
       this.fb.group({
-        type: ['', Validators.required],
         prompt: ['', Validators.required],
+        type: ['', Validators.required],
+        correctAnswer: [''],
+        answerChoices: this.fb.array(
+          Array(4)
+            .fill(0)
+            .map(() =>
+              this.fb.group({
+                content: [''],
+                correctAnswer: [false],
+              }),
+            ),
+        ),
+        caseSensitive: [false],
       }),
     );
   }
 
-  moveQuestion(event: CdkDragDrop<FormGroup>) {
+  moveQuestion(event: CdkDragDrop<FormGroup>): void {
     moveItemInArray(
       this.quizQuestions.controls,
       event.previousIndex,
       event.currentIndex,
     );
+  }
+
+  removeQuestion(i: number): void {
+    this.quizQuestions.controls.splice(i, 1);
+  }
+
+  publishQuiz(): void {
+    const formValue = this.quizForm.value;
+
+    const quiz: Quiz = {
+      title: formValue.title,
+      tags: [],
+      description: formValue.description,
+      paymentPointer: formValue.paymentPointer,
+
+      questions: formValue.questions.map((rq) => {
+        const q: Question = {
+          prompt: rq.prompt,
+          type: rq.type,
+        };
+
+        switch (q.type) {
+          case 'mc':
+            const mcq = q as MultipleChoiceQuestion;
+            mcq.answerChoices = rq.answerChoices.map((c) => c.content);
+            mcq.correctAnswers = rq.answerChoices
+              .filter((c) => c.correctAnswer)
+              .map((c) => c.content);
+            break;
+          case 'txt':
+            const tq = q as TextQuestion;
+            tq.correctAnswer = rq.correctAnswer;
+            tq.caseSensitive = rq.caseSensitive;
+            break;
+          case 'num':
+            const nq = q as NumberQuestion;
+            nq.correctAnswer = parseFloat(rq.correctAnswer);
+            break;
+          case 'date':
+            const dq = q as DateQuestion;
+            break;
+        }
+
+        return q;
+      }),
+    };
+
+    console.log(quiz);
   }
 }

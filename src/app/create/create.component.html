@@ -41,6 +41,7 @@
     </div>
     <div class="form-group">
       <textarea
+        formControlName="description"
         class="form-control"
         placeholder="Description"
         rows="3"
@@ -69,8 +70,18 @@
           [formGroupName]="i"
           cdkDrag
         >
+          <div class="question-number">{{ i + 1 }}</div>
+          <div>
+            <button
+              type="button"
+              class="close mt-2 mr-3"
+              aria-label="Close"
+              (click)="removeQuestion(i)"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
           <div class="card-body">
-            <div class="question-number">{{ i + 1 }}</div>
             <div class="form-group">
               <input
                 type="text"
@@ -89,19 +100,57 @@
               </select>
             </div>
             <ng-container [ngSwitch]="questionFormGroup.value.type">
+              <ng-container *ngSwitchCase="'mc'" formArrayName="answerChoices">
+                <div
+                  *ngFor="let _ of [].constructor(4); index as j"
+                  class="form-row my-1"
+                  [formGroupName]="j"
+                >
+                  <div class="col">
+                    <input
+                      formControlName="content"
+                      type="text"
+                      class="form-control form-control-sm"
+                      placeholder="Answer Choice"
+                    />
+                  </div>
+                  <div class="col correctAnswerCheckboxCol">
+                    <div class="custom-control custom-checkbox">
+                      <input
+                        id="correctAnswerCheckbox{{ i }}-{{ j }}"
+                        type="checkbox"
+                        formControlName="correctAnswer"
+                        class="custom-control-input"
+                      />
+                      <label
+                        class="custom-control-label"
+                        for="correctAnswerCheckbox{{ i }}-{{ j }}"
+                        >Correct answer</label
+                      >
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
               <ng-container *ngSwitchCase="'txt'">
                 <div class="form-group">
                   <input
                     type="text"
-                    formControlName="prompt"
+                    formControlName="correctAnswer"
                     class="form-control"
                     placeholder="Correct Answer"
                   />
                 </div>
                 <div class="form-group">
                   <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" />
-                    <label class="custom-control-label"
+                    <input
+                      id="caseSensitiveCheckbox{{ i }}"
+                      type="checkbox"
+                      formControlName="caseSensitive"
+                      class="custom-control-input"
+                    />
+                    <label
+                      class="custom-control-label"
+                      for="caseSensitiveCheckbox{{ i }}"
                       >Should the answer be case sensitive?</label
                     >
                   </div>
@@ -110,7 +159,7 @@
               <div *ngSwitchCase="'num'" class="form-group">
                 <input
                   type="number"
-                  formControlName="prompt"
+                  formControlName="correctAnswer"
                   class="form-control"
                   placeholder="Correct Answer"
                 />
@@ -118,7 +167,7 @@
               <div *ngSwitchCase="'date'" class="form-group">
                 <input
                   type="date"
-                  formControlName="prompt"
+                  formControlName="correctAnswer"
                   class="form-control"
                   placeholder="Correct Answer"
                 />
@@ -151,6 +200,7 @@
     <div class="form-group">
       <input
         type="text"
+        formControlName="paymentPointer"
         class="form-control"
         placeholder="Payment Pointer"
         aria-describedby="paymentHelp"
@@ -169,7 +219,13 @@
       deleted after publishing. Be sure to check your work properly!
     </p>
     <div class="text-right mb-5">
-      <button class="btn btn-secondary">Publish Quiz!</button>
+      <button
+        class="btn btn-secondary"
+        (click)="publishQuiz()"
+        [disabled]="!quizForm.valid"
+      >
+        Publish Quiz!
+      </button>
     </div>
   </form>
 </div>
