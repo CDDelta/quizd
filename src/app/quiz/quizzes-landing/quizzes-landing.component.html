@@ -16,7 +16,7 @@
     </div>
     <div class="col-md-8 order-md-first">
       <ng-container *ngIf="quizzesQuery$ | async as query">
-        <div *ngFor="let quiz of query.quizzes" class="card my-3">
+        <div *ngFor="let quiz of query.quizzes" class="card mb-3">
           <div class="card-body">
             <h3 class="card-title">{{ quiz.title }}</h3>
             <p class="card-text">{{ quiz.description }}</p>
