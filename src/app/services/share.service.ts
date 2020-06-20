@@ -6,11 +6,12 @@ import { Injectable } from '@angular/core';
 export class ShareService {
   constructor() {}
 
+  // TODO: Use proper typings when Angular supports Typescript 3.9.
   canShare(): boolean {
-    return !!navigator.share;
+    return !!(navigator as any).share;
   }
 
-  async share(data: ShareData): Promise<void> {
-    return navigator.share(data);
+  async share(data: any): Promise<void> {
+    return (navigator as any).share(data);
   }
 }
