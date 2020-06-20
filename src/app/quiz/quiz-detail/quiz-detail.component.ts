@@ -93,7 +93,7 @@ export class QuizDetailComponent implements OnInit {
         else if (question.type === 'num')
           correctAnswer = (question as NumberQuestion).correctAnswer.toString();
 
-        if (control.value !== correctAnswer)
+        if (control.value != correctAnswer)
           control.setErrors({ incorrectAnswer: correctAnswer });
       }
     }

@@ -18,6 +18,12 @@
       <div
         *ngFor="let question of quiz.questions; index as i"
         class="card my-4"
+        [ngClass]="{
+          'border-success':
+            answersShown && !answerControls[i].hasError('incorrectAnswer'),
+          'border-danger':
+            answersShown && answerControls[i].hasError('incorrectAnswer')
+        }"
       >
         <div class="question-number bg-primary text-light">{{ i + 1 }}</div>
         <div class="card-body">
@@ -94,7 +100,11 @@
               percentageScore | percent
             }})!
           </h3>
-          <button *ngIf="share.canShare()" class="btn btn-outline-primary" (click)="shareResults()">
+          <button
+            *ngIf="share.canShare()"
+            class="btn btn-outline-primary"
+            (click)="shareResults()"
+          >
             Share results!
           </button>
         </div>
