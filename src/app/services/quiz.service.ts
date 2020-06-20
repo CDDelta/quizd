@@ -13,6 +13,22 @@ export class QuizService {
     this.arweaveClient = Arweave.init(undefined);
   }
 
+  async getQuizIds(): Promise<string[]> {
+    return this.arweaveClient.arql({
+      op: 'and',
+      expr1: {
+        op: 'equals',
+        expr1: 'App-Name',
+        expr2: 'quizd',
+      },
+      expr2: {
+        op: 'equals',
+        expr1: 'Type',
+        expr2: 'quiz',
+      },
+    });
+  }
+
   async getQuiz(quizId: string): Promise<Quiz> {
     const quizJson = (await this.arweaveClient.transactions.getData(quizId, {
       decode: true,
@@ -32,6 +48,7 @@ export class QuizService {
 
     transaction.addTag('Content-Type', 'application/json');
     transaction.addTag('App-Name', 'quizd');
+    transaction.addTag('Type', 'quiz');
 
     await this.arweaveClient.transactions.sign(transaction, key);
 
