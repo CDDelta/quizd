@@ -3,7 +3,7 @@
     <div class="card-body">
       <div *ngIf="quizPublished$ | async; else quizPublishing">
         <h2>This quiz is published!</h2>
-        <a class="btn btn-primary" routerLink="/quizzes/{{ quizId }}"
+        <a class="btn btn-primary mt-2" routerLink="/quizzes/{{ quizId }}"
           >Play Now</a
         >
       </div>
