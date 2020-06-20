@@ -2,7 +2,7 @@
 
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/cddelta/ngx-monetization/issues)
 
-This is a platform on the Arweave permaweb where users can play quizzes made by others and create their own!
+This is a decentralized platform on the Arweave permaweb where users can play quizzes made by others and create their own!
 
 ## Features
 1. Play quizzes made by others
