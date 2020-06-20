@@ -77,14 +77,18 @@ export class QuizDetailComponent implements OnInit {
           control.setErrors({
             incorrectAnswer: mcq.correctAnswers.join(' , '),
           });
+      } else if (question.type === 'date') {
+        const dq = question as DateQuestion;
+        if (dq.correctAnswer.valueOf() !== new Date(control.value).valueOf())
+          control.setErrors({
+            incorrectAnswer: dq.correctAnswer.toLocaleDateString(),
+          });
       } else {
         let correctAnswer: string;
         if (question.type === 'txt')
           correctAnswer = (question as TextQuestion).correctAnswer;
         else if (question.type === 'num')
           correctAnswer = (question as NumberQuestion).correctAnswer.toString();
-        else if (question.type === 'date')
-          correctAnswer = (question as DateQuestion).correctAnswer.toString();
 
         if (control.value !== correctAnswer)
           control.setErrors({ incorrectAnswer: correctAnswer });

@@ -35,7 +35,15 @@ export class QuizService {
       string: true,
     })) as string;
 
-    return JSON.parse(quizJson);
+    const quiz = JSON.parse(quizJson);
+
+    for (const question of quiz.questions) {
+      // Parse the answer date for the model.
+      if (question.type === 'date')
+        question.correctAnswer = new Date(question.correctAnswer);
+    }
+
+    return quiz;
   }
 
   async publishQuiz(quiz: Quiz, key: JWKInterface): Promise<string> {
