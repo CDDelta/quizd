@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  defaultPaymentPointer: '$ilp.uphold.com/2hpirLgBX6jr',
 };

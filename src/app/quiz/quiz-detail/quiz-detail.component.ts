@@ -3,6 +3,7 @@ import { ActivatedRoute, Router, NavigationStart } from '@angular/router';
 import { Quiz } from 'src/app/models/quiz';
 import { MonetizationService } from 'ngx-monetization';
 import { filter } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-quiz-detail',
@@ -29,6 +30,8 @@ export class QuizDetailComponent implements OnInit {
     // Remove payment pointer when user navigates away from quiz.
     this.router.events
       .pipe(filter((e) => e instanceof NavigationStart))
-      .subscribe(() => this.monetization.setPaymentPointer(''));
+      .subscribe(() =>
+        this.monetization.setPaymentPointer(environment.defaultPaymentPointer),
+      );
   }
 }

@@ -3,7 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  defaultPaymentPointer: '$ilp.uphold.com/2hpirLgBX6jr',
 };
 
 /*
