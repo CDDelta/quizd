@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { ActivatedRoute, Router, NavigationStart } from '@angular/router';
 import { Quiz } from 'src/app/models/quiz';
 import { MonetizationService } from 'ngx-monetization';
@@ -8,7 +9,6 @@ import {
   FormBuilder,
   FormArray,
   FormGroup,
-  FormControl,
   AbstractControl,
 } from '@angular/forms';
 import {
@@ -17,6 +17,7 @@ import {
   DateQuestion,
   MultipleChoiceQuestion,
 } from 'src/app/models/question';
+import { ShareService } from 'src/app/services/share.service';
 
 @Component({
   selector: 'app-quiz-detail',
@@ -39,7 +40,9 @@ export class QuizDetailComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private monetization: MonetizationService,
+    public share: ShareService,
     private fb: FormBuilder,
+    @Inject(DOCUMENT) private document: Document,
   ) {}
 
   ngOnInit(): void {
@@ -103,5 +106,11 @@ export class QuizDetailComponent implements OnInit {
     this.answersShown = true;
   }
 
-  shareResults(): void {}
+  shareResults(): void {
+    this.share.share({
+      title: `Check this quiz out!`,
+      text: `I scored ${this.pointScore}/${this.quiz.questions.length} on this "${this.quiz.title}" quiz! What can you get?`,
+      url: this.document.location.href,
+    });
+  }
 }

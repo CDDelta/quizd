@@ -94,7 +94,7 @@
               percentageScore | percent
             }})!
           </h3>
-          <button class="btn btn-outline-primary" (click)="shareResults()">
+          <button *ngIf="share.canShare()" class="btn btn-outline-primary" (click)="shareResults()">
             Share results!
           </button>
         </div>
