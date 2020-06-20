@@ -4,6 +4,7 @@ import { QuizDetailComponent } from './quiz-detail/quiz-detail.component';
 import { QuizzesLandingComponent } from './quizzes-landing/quizzes-landing.component';
 import { QuizStatusComponent } from './quiz-status/quiz-status.component';
 import { RouterModule } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -11,6 +12,6 @@ import { RouterModule } from '@angular/router';
     QuizzesLandingComponent,
     QuizStatusComponent,
   ],
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
 })
 export class QuizModule {}

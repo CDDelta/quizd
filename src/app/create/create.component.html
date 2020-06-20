@@ -35,19 +35,6 @@
       />
     </div>
     <div class="form-group">
-      <input
-        type="text"
-        formControlName="tags"
-        class="form-control"
-        placeholder="Tags"
-        aria-describedby="tagsHelp"
-      />
-      <small id="tagsHelp" class="form-text text-muted"
-        >Adding tags will make it easier for others to find your quiz! Seperate
-        each tag with a ' , '.</small
-      >
-    </div>
-    <div class="form-group">
       <textarea
         formControlName="description"
         class="form-control"
@@ -58,6 +45,19 @@
       ></textarea>
       <small id="descriptionHelp" class="form-text text-muted"
         >Tell people what your quiz is about!</small
+      >
+    </div>
+    <div class="form-group">
+      <input
+        type="text"
+        formControlName="tags"
+        class="form-control"
+        placeholder="Tags"
+        aria-describedby="tagsHelp"
+      />
+      <small id="tagsHelp" class="form-text text-muted"
+        >Adding tags will make it easier for others to find your quiz! Seperate
+        each tag with a ' , '.</small
       >
     </div>
 
@@ -79,7 +79,7 @@
           [formGroupName]="i"
           cdkDrag
         >
-          <div class="question-number">{{ i + 1 }}</div>
+          <div class="question-number bg-primary text-light">{{ i + 1 }}</div>
           <div>
             <button
               type="button"
