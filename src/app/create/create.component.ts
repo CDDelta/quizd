@@ -29,6 +29,8 @@ export class CreateComponent {
     questions: this.fb.array([], Validators.required),
   });
 
+  public publishingQuiz = false;
+
   get quizQuestions(): FormArray {
     return this.quizForm.get('questions') as FormArray;
   }
@@ -116,6 +118,8 @@ export class CreateComponent {
         return q;
       }),
     };
+
+    this.publishingQuiz = true;
 
     const quizId = await this.quizService.publishQuiz(quiz, this.key);
     this.router.navigateByUrl(`/quizzes/${quizId}/status`);

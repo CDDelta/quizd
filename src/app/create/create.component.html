@@ -229,14 +229,21 @@
       deleted after publishing. Be sure to check your work properly!
     </p>
     <div class="text-right mb-5">
-      <div>
-        <button class="btn btn-secondary mb-2" (click)="publishQuiz()">
+      <div class="d-flex justify-content-end align-items-center">
+        <div *ngIf="publishingQuiz" class="spinner-border mr-4" role="status">
+          <span class="sr-only">Publishing...</span>
+        </div>
+        <button
+          class="btn btn-secondary mb-2"
+          (click)="publishQuiz()"
+          [disabled]="publishingQuiz"
+        >
           Publish Quiz!
         </button>
-        <p class="text-danger" [hidden]="quizForm.valid">
-          There are still some problems with your quiz to fix.
-        </p>
       </div>
+      <p class="text-danger" [hidden]="quizForm.valid">
+        There are still some problems with your quiz to fix.
+      </p>
     </div>
   </form>
 </div>
