@@ -1,5 +1,5 @@
 <div class="container">
-  <h2>{{ quiz.title }}</h2>
+  <h1>{{ quiz.title }}</h1>
   <p class="lead">{{ quiz.description }}</p>
   <div class="d-flex">
     <span
@@ -9,7 +9,11 @@
     >
   </div>
 
-  <form [formGroup]="quizForm" class="mt-5">
+  <form
+    [formGroup]="quizForm"
+    class="mt-5"
+    [class.answers-shown]="answersShown"
+  >
     <div formArrayName="answers">
       <div
         *ngFor="let question of quiz.questions; index as i"
@@ -18,7 +22,7 @@
         <div class="question-number bg-primary text-light">{{ i + 1 }}</div>
         <div class="card-body">
           <h2 class="card-title">{{ question.prompt }}</h2>
-          <ng-container [ngSwitch]="question.type">
+          <div [ngSwitch]="question.type" class="form-group">
             <ul *ngSwitchCase="'mc'" class="list-group list-group-flush">
               <li
                 *ngFor="let choice of question.answerChoices; index as j"
@@ -31,6 +35,7 @@
                     [formControlName]="i"
                     [value]="choice"
                     class="custom-control-input"
+                    [attr.disabled]="answersShown ? 'disabled' : null"
                   />
                   <label
                     class="custom-control-label w-100"
@@ -40,39 +45,60 @@
                 </div>
               </li>
             </ul>
-            <div *ngSwitchCase="'txt'" class="form-group">
-              <input
-                type="text"
-                class="form-control"
-                [formControlName]="i"
-                placeholder="Answer"
-              />
-            </div>
-            <div *ngSwitchCase="'num'" class="form-group">
-              <input
-                type="number"
-                class="form-control"
-                [formControlName]="i"
-                placeholder="Answer"
-              />
-            </div>
-            <div *ngSwitchCase="'date'" class="form-group">
-              <input
-                type="date"
-                class="form-control"
-                [formControlName]="i"
-                placeholder="Answer"
-              />
-            </div>
-          </ng-container>
+            <input
+              *ngSwitchCase="'txt'"
+              type="text"
+              class="form-control"
+              [formControlName]="i"
+              placeholder="Answer"
+              [attr.disabled]="answersShown ? 'disabled' : null"
+            />
+            <input
+              *ngSwitchCase="'num'"
+              type="number"
+              class="form-control"
+              [formControlName]="i"
+              placeholder="Answer"
+              [attr.disabled]="answersShown ? 'disabled' : null"
+            />
+            <input
+              *ngSwitchCase="'date'"
+              type="date"
+              class="form-control"
+              [formControlName]="i"
+              placeholder="Answer"
+              [attr.disabled]="answersShown ? 'disabled' : null"
+            />
+            <small
+              *ngIf="answerControls[i].hasError('incorrectAnswer')"
+              id="correctAnswer{{ i }}"
+              class="form-text text-danger"
+              >Correct answer:
+              {{ answerControls[i].getError('incorrectAnswer') }}</small
+            >
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="text-right mb-5">
+    <div *ngIf="!answersShown; else resultsContainer" class="text-right mb-5">
       <button class="btn btn-primary" (click)="showResults()">
         See My Results!
       </button>
     </div>
+    <ng-template #resultsContainer>
+      <div class="card mb-5">
+        <div class="card-body">
+          <h3 class="mb-3">
+            You scored {{ pointScore }}/{{ quiz.questions.length }} ({{
+              percentageScore | percent
+            }})!
+          </h3>
+          <button class="btn btn-outline-primary" (click)="shareResults()">
+            Share results!
+          </button>
+        </div>
+      </div>
+    </ng-template>
   </form>
 </div>

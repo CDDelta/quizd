@@ -120,6 +120,7 @@ export class CreateComponent {
     };
 
     this.publishingQuiz = true;
+    this.quizForm.disable();
 
     const quizId = await this.quizService.publishQuiz(quiz, this.key);
     this.router.navigateByUrl(`/quizzes/${quizId}/status`);

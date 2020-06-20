@@ -1,3 +1,6 @@
+@import '../../../theme';
+@import '~bootstrap/scss/bootstrap';
+
 .container {
   max-width: 750px;
 }
@@ -13,4 +16,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.answers-shown .ng-valid {
+  @extend .is-valid;
+}
+.answers-shown .ng-invalid {
+  @extend .is-invalid;
 }

@@ -4,7 +4,19 @@ import { Quiz } from 'src/app/models/quiz';
 import { MonetizationService } from 'ngx-monetization';
 import { filter } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import {
+  FormBuilder,
+  FormArray,
+  FormGroup,
+  FormControl,
+  AbstractControl,
+} from '@angular/forms';
+import {
+  TextQuestion,
+  NumberQuestion,
+  DateQuestion,
+  MultipleChoiceQuestion,
+} from 'src/app/models/question';
 
 @Component({
   selector: 'app-quiz-detail',
@@ -13,8 +25,15 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class QuizDetailComponent implements OnInit {
   public quiz: Quiz;
-
   public quizForm: FormGroup;
+  public answersShown = false;
+
+  public pointScore = 0;
+  public percentageScore = 0;
+
+  get answerControls(): AbstractControl[] {
+    return (this.quizForm.get('answers') as FormArray).controls;
+  }
 
   constructor(
     private router: Router,
@@ -29,7 +48,9 @@ export class QuizDetailComponent implements OnInit {
 
       this.quizForm = this.fb.group({
         answers: this.fb.array(
-          Array(this.quiz.questions.length).fill(this.fb.control([''])),
+          Array(this.quiz.questions.length)
+            .fill(0)
+            .map(() => this.fb.control('')),
         ),
       });
 
@@ -46,7 +67,37 @@ export class QuizDetailComponent implements OnInit {
   }
 
   showResults(): void {
-    for (const question of this.quiz.questions) {
+    for (let i = 0; i < this.answerControls.length; i++) {
+      const control = this.answerControls[i];
+      const question = this.quiz.questions[i];
+
+      if (question.type === 'mc') {
+        const mcq = question as MultipleChoiceQuestion;
+        if (mcq.correctAnswers.findIndex((a) => a === control.value) < 0)
+          control.setErrors({
+            incorrectAnswer: mcq.correctAnswers.join(' , '),
+          });
+      } else {
+        let correctAnswer: string;
+        if (question.type === 'txt')
+          correctAnswer = (question as TextQuestion).correctAnswer;
+        else if (question.type === 'num')
+          correctAnswer = (question as NumberQuestion).correctAnswer.toString();
+        else if (question.type === 'date')
+          correctAnswer = (question as DateQuestion).correctAnswer.toString();
+
+        if (control.value !== correctAnswer)
+          control.setErrors({ incorrectAnswer: correctAnswer });
+      }
     }
+
+    for (const answer of this.answerControls)
+      if (answer.valid) this.pointScore++;
+
+    this.percentageScore = this.pointScore / this.quiz.questions.length;
+
+    this.answersShown = true;
   }
+
+  shareResults(): void {}
 }
