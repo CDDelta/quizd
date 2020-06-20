@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "package": "arweave package dist/quizd/index.html dist/quizd-packaged/index.html",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

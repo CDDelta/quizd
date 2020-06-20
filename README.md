@@ -12,4 +12,4 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app w
 
 First, build the app using `ng build --prod`, then deploy it on the Arweave permaweb using `arweave deploy dist/quizd/index.html --key-file path/to/arweave-key.json --package`.
 
-To test the app packaging, run `arweave package dist/quizd/index.html dist/quizd-packaged/index.html` and serve the resulting package using `http-server ./dist/quizd-packaged`.
+To test the app packaging, run `npm run package` and serve the resulting package using `http-server ./dist/quizd-packaged`.
