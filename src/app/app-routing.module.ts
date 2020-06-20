@@ -4,6 +4,7 @@ import { QuizzesLandingComponent } from './quiz/quizzes-landing/quizzes-landing.
 import { QuizDetailComponent } from './quiz/quiz-detail/quiz-detail.component';
 import { QuizStatusComponent } from './quiz/quiz-status/quiz-status.component';
 import { QuizDetailResolverService } from './quiz/quiz-detail/quiz-detail-resolver.service';
+import { CreateComponent } from './create/create.component';
 
 const routes: Routes = [
   {
@@ -24,8 +25,7 @@ const routes: Routes = [
   },
   {
     path: 'create',
-    loadChildren: () =>
-      import('./create/create.module').then((m) => m.CreateModule),
+    component: CreateComponent,
   },
 ];
 
